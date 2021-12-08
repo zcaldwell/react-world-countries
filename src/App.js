@@ -7,12 +7,14 @@ function App() {
   const [countries, setCountries] = useState([]);
   const [query, setQuery] = useState('');
   const [continent, setContinent] = useState('All');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await getCountries();
       console.log(data);
       setCountries(data);
+      setLoading(false);
     };
     fetchData();
   }, []);
@@ -24,6 +26,7 @@ function App() {
       );
     });
   }
+  if (loading) return <h1>Loading</h1>;
 
   return (
     <div className="App">
@@ -40,6 +43,11 @@ function App() {
         <option value="All">All</option>
         <option value="Asia">Asia</option>
         <option value="North America">North America</option>
+        <option value="South America">South America</option>
+        <option value="Africa">Africa</option>
+        <option value="Oceania">Oceania</option>
+        <option value="Europe">Europe</option>
+        <option value="Antartica">Antartica</option>
       </select>
       {filterCountries().map((country) => (
         <FlagCard key={country.iso2} {...country} />
