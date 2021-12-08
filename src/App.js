@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react';
 
 function App() {
   const [countries, setCountries] = useState([]);
+  const [query, setQuery] = useState('');
+  const [continent, setContinent] = useState('All');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,9 +16,32 @@ function App() {
     };
     fetchData();
   }, []);
+
+  function filterCountries() {
+    return countries.filter((country) => {
+      return (
+        country.name.includes(query) && (country.continent === continent || continent === 'All')
+      );
+    });
+  }
+
   return (
     <div className="App">
-      {countries.map((country) => (
+      <h1>Country List</h1>
+      <input
+        placeholder="Search Countries"
+        type="text"
+        value={query}
+        onChange={(e) => {
+          setQuery(e.target.value);
+        }}
+      />
+      <select value={continent} onChange={(e) => setContinent(e.target.value)}>
+        <option value="All">All</option>
+        <option value="Asia">Asia</option>
+        <option value="North America">North America</option>
+      </select>
+      {filterCountries().map((country) => (
         <FlagCard key={country.iso2} {...country} />
       ))}
     </div>
