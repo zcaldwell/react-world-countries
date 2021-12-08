@@ -8,6 +8,7 @@ function App() {
   const [query, setQuery] = useState('');
   const [continent, setContinent] = useState('All');
   const [loading, setLoading] = useState(true);
+  const [order, setOrder] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,12 +21,33 @@ function App() {
   }, []);
 
   function filterCountries() {
-    return countries.filter((country) => {
-      return (
-        country.name.includes(query) && (country.continent === continent || continent === 'All')
-      );
-    });
+    return countries
+      .sort((a, b) => {
+        if (order === 'asc') {
+          if (a.name < b.name) {
+            return -1;
+          }
+          if (a.name > b.name) {
+            return 1;
+          }
+          return 0;
+        } else if (order === 'dsc') {
+          if (a.name > b.name) {
+            return -1;
+          }
+          if (a.name < b.name) {
+            return 1;
+          }
+          return 0;
+        }
+      })
+      .filter((country) => {
+        return (
+          country.name.includes(query) && (country.continent === continent || continent === 'All')
+        );
+      });
   }
+
   if (loading) return <h1>Loading</h1>;
 
   return (
@@ -48,6 +70,11 @@ function App() {
         <option value="Oceania">Oceania</option>
         <option value="Europe">Europe</option>
         <option value="Antartica">Antartica</option>
+      </select>
+      <select value={order} onChange={(e) => setOrder(e.target.value)}>
+        <option value="n/a">N/A</option>
+        <option value="asc">Ascending</option>
+        <option value="dsc">Descending</option>
       </select>
       {filterCountries().map((country) => (
         <FlagCard key={country.iso2} {...country} />
