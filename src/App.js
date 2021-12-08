@@ -51,33 +51,37 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Country List</h1>
-      <input
-        placeholder="Search Countries"
-        type="text"
-        value={query}
-        onChange={(e) => {
-          setQuery(e.target.value);
-        }}
-      />
-      <select value={continent} onChange={(e) => setContinent(e.target.value)}>
-        <option value="All">All</option>
-        <option value="Asia">Asia</option>
-        <option value="North America">North America</option>
-        <option value="South America">South America</option>
-        <option value="Africa">Africa</option>
-        <option value="Oceania">Oceania</option>
-        <option value="Europe">Europe</option>
-        <option value="Antartica">Antartica</option>
-      </select>
-      <select value={order} onChange={(e) => setOrder(e.target.value)}>
-        <option value="n/a">N/A</option>
-        <option value="asc">Ascending</option>
-        <option value="dsc">Descending</option>
-      </select>
-      {filterCountries().map((country) => (
-        <FlagCard key={country.iso2} {...country} />
-      ))}
+      <div className="input-container">
+        <h1>Country List</h1>
+        <input
+          placeholder="Search Countries"
+          type="text"
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+          }}
+        />
+        <select value={continent} onChange={(e) => setContinent(e.target.value)}>
+          <option value="All">All</option>
+          <option value="Asia">Asia</option>
+          <option value="North America">North America</option>
+          <option value="South America">South America</option>
+          <option value="Africa">Africa</option>
+          <option value="Oceania">Oceania</option>
+          <option value="Europe">Europe</option>
+          <option value="Antartica">Antartica</option>
+        </select>
+        <select value={order} onChange={(e) => setOrder(e.target.value)}>
+          <option value="n/a">N/A</option>
+          <option value="asc">Ascending</option>
+          <option value="dsc">Descending</option>
+        </select>
+      </div>
+      <div className="card-container">
+        {filterCountries().map((country) => (
+          <FlagCard key={country.iso2} {...country} />
+        ))}
+      </div>
     </div>
   );
 }
